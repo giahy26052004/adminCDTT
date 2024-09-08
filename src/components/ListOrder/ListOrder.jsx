@@ -4,7 +4,7 @@ import "./ListOrder.css";
 const ListCart = () => {
   const [orders, setOrders] = useState([]);
   const fetchInfo = async () => {
-    await fetch("http://localhost:3003/orders")
+    await fetch("https://backendcdtt.onrender.com/orders")
       .then(async (res) => {
         const data = await res.json();
         return data;

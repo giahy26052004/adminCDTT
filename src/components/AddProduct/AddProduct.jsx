@@ -16,7 +16,7 @@ const AddProduct = () => {
     try {
       const formData = new FormData();
       formData.append("product", image);
-      await fetch("http://localhost:3003/upload", {
+      await fetch("https://backendcdtt.onrender.com/upload", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -28,7 +28,7 @@ const AddProduct = () => {
           console.log(data);
           if (data.success) {
             product.image = data.image_url;
-            await fetch("http://localhost:3003/addproduct", {
+            await fetch("https://backendcdtt.onrender.com/addproduct", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",

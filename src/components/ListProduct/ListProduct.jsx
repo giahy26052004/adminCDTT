@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 const ListProduct = () => {
   const [allProducts, setAllProducts] = useState([]);
   const fetchInfo = async () => {
-    await fetch("http://localhost:3003/allproducts")
+    await fetch("https://backendcdtt.onrender.com/allproducts")
       .then(async (res) => {
         const data = await res.json();
         return data;
@@ -15,7 +15,7 @@ const ListProduct = () => {
       });
   };
   const handleRemove = async (id) => {
-    await fetch(`http://localhost:3003/removeProduct`, {
+    await fetch(`https://backendcdtt.onrender.com/removeProduct`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
