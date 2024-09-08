@@ -1,0 +1,21 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 1px 3px -2px #000;
+  background-color: white;
+  height: 70px;
+}
+.nav-logo {
+  height: 100%;
+  margin-left: 20px;
+}
+.nav-icon-profile {
+  margin-right: 20px;
+  cursor: pointer;
+}
+@media screen and (max-width: 768px) {
+  .navbar {
+    height: 70px;
+  }
+}
