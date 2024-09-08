@@ -1,4 +1,4 @@
-import AddProduct from "../../components/Addproduct/AddProduct";
+import AddProduct from "../../components/AddProduct/AddProduct";
 import ListCart from "../../components/ListOrder/ListOrder";
 import ListProduct from "../../components/ListProduct/ListProduct";
 import SideBar from "../../components/SideBar/SideBar";
