@@ -1,6 +1,7 @@
 .list-product {
 }
-
+.listproduct-product-image {
+}
 .list-product-allProducts {
   display: flex;
   flex-direction: column;
@@ -11,7 +12,7 @@
 }
 .listproduct-format-main {
   display: grid;
-  grid-template-columns: 1fr 3fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 3fr 1fr 1fr 1fr 1fr;
   gap: 10px;
   width: 100%;
   align-items: center;
@@ -48,7 +49,7 @@
   }
   .listproduct-product-image {
     width: 100px;
-    height: 100px;
+    height: 200px;
     object-fit: cover;
   }
   .list-product {

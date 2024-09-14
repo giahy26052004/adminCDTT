@@ -41,9 +41,12 @@ const ListProduct = () => {
       <div className="listproduct-format-main  ">
         <p>Products</p>
         <p>Title</p>
+        <p>Image</p>
+        <p></p>
         <p>Old Price</p>
         <p>New Price</p>
         <p>Category</p>
+
         <p>Remove</p>
       </div>
       <div className="listproduct-allProducts">
@@ -56,19 +59,26 @@ const ListProduct = () => {
             >
               <p></p>
 
-              <p className="listproduct-product-name">
-                {product.name}
-
+              <p className="listproduct-product-name">{product.name}</p>
+              <p>
                 <img
+                  style={{
+                    width: "160px",
+                    height: "150px",
+                    objectFit: "cover",
+                  }}
                   src={product.image}
                   alt={product.name}
                   className="listproduct-product-image"
                 />
               </p>
 
-              <p>{product.old_price}</p>
-              <p>{product.new_price}</p>
-              <p>{product.category}</p>
+              <p style={{ marginLeft: "110px" }}>{product.old_price}</p>
+              <p style={{ marginLeft: "40px" }}>{product.new_price}</p>
+              <p></p>
+
+              <p style={{ marginRight: "30px" }}>{product.category}</p>
+
               <button
                 className="listproduct-remove-btn"
                 onClick={() => {
