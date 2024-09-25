@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./AddProduct.css";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import toast from "react-hot-toast";
-const AddProduct = () => {
+import PropTypes from "prop-types";
+
+const AddProduct = ({ preProduct, fetchInfo }) => {
   const [image, setImage] = useState("");
   const [product, setProduct] = useState({
     name: "",
@@ -11,49 +13,77 @@ const AddProduct = () => {
     category: "women",
     image: "",
   });
+
+  useEffect(() => {
+    if (preProduct) {
+      setProduct(preProduct);
+    }
+  }, [preProduct]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const formData = new FormData();
-      formData.append("product", image);
-      await fetch("https://backendcdtt.onrender.com/upload", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-        },
-        body: formData,
-      })
-        .then(async (res) => await res.json())
-        .then(async (data) => {
-          console.log(data);
-          if (data.success) {
-            product.image = data.image_url;
-            await fetch("https://backendcdtt.onrender.com/addproduct", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(product),
-            })
-              .then((res) => res.json())
-              .then((res) => {
-                console.log(res);
-                toast.success("Successfully created!");
-              });
+      if (image) {
+        formData.append("product", image);
+      }
+
+      // If image is provided, upload it
+      let imageUrl = product.image; // Default to existing image
+      if (image) {
+        const uploadResponse = await fetch(
+          "https://backendcdtt.onrender.com/upload",
+          {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+            },
+            body: formData,
           }
-        });
-      console.log(product);
+        );
+        const uploadData = await uploadResponse.json();
+        if (uploadData.success) {
+          imageUrl = uploadData.image_url; // Get the uploaded image URL
+        }
+      }
+
+      // Prepare the product data
+      const productData = { ...product, image: imageUrl };
+
+      // Determine whether to add or edit the product
+      const apiUrl = preProduct
+        ? "http://localhost:3003/editproduct"
+        : "https://backendcdtt.onrender.com/addproduct";
+      const method = preProduct ? "PUT" : "POST";
+      const token = localStorage.getItem("token");
+      const res = await fetch(apiUrl, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": token, // Include the auth-token here
+        },
+        body: JSON.stringify(productData),
+      });
+      const resData = await res.json();
+      console.log(resData);
+      toast.success(
+        preProduct ? "Successfully updated!" : "Successfully created!"
+      );
+      fetchInfo();
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      toast.error("An error occurred. Please try again.");
     }
   };
+
   const handleImage = (e) => {
     setImage(e.target.files[0]);
-    console.log(image);
   };
+
   const handleChange = (e) => {
     setProduct({ ...product, [e.target.name]: e.target.value });
   };
+
   return (
     <div className="add-product">
       <div className="addproduct-itemfield">
@@ -96,9 +126,9 @@ const AddProduct = () => {
           name="category"
           className="addproduct-selector"
         >
-          <option value={"Women"}>Women</option>
-          <option value={"Men"}>Men</option>
-          <option value={"Kid"}>Kid</option>
+          <option value="women">Women</option>
+          <option value="men">Men</option>
+          <option value="kid">Kid</option>
         </select>
       </div>
       <div className="addproduct-itemfield">
@@ -114,7 +144,13 @@ const AddProduct = () => {
                 alt="image"
               />
             ) : (
-              ""
+              preProduct?.image && (
+                <img
+                  className="addproduct-thumnail-img-preview"
+                  src={preProduct.image}
+                  alt="Existing"
+                />
+              )
             )}
           </div>
         </label>
@@ -127,10 +163,14 @@ const AddProduct = () => {
         />
       </div>
       <button className="addproduct-btn" onClick={handleSubmit}>
-        ADD
+        {preProduct ? "EDIT" : "ADD"}
       </button>
     </div>
   );
+};
+
+AddProduct.propTypes = {
+  preProduct: PropTypes.object,
 };
 
 export default AddProduct;

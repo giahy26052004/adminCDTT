@@ -1,6 +1,11 @@
 import "./NavBar.css";
-import { CgProfile } from "react-icons/cg";
+import { CgArrowRight, CgProfile } from "react-icons/cg";
+
 const NavBar = () => {
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/";
+  };
   return (
     <div className="navbar">
       <img
@@ -9,7 +14,14 @@ const NavBar = () => {
         className="nav-logo"
       />
       <div className="nav-icon-profile">
-        <CgProfile size={30} />
+        <div className="profileIcon">
+          <CgProfile size={30} />
+        </div>
+        {localStorage.getItem("token") && (
+          <div className="logoutIcon" onClick={handleLogout}>
+            <CgArrowRight size={30} />
+          </div>
+        )}
       </div>
     </div>
   );

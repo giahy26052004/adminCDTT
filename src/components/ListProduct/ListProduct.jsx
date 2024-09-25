@@ -1,19 +1,22 @@
 import { useEffect, useState } from "react";
 import "./ListProduct.css";
 import toast from "react-hot-toast";
+import AddProduct from "../AddProduct/AddProduct";
 
 const ListProduct = () => {
   const [allProducts, setAllProducts] = useState([]);
+  const [editingProduct, setEditingProduct] = useState(null);
+
   const fetchInfo = async () => {
-    await fetch("https://backendcdtt.onrender.com/allproducts")
-      .then(async (res) => {
-        const data = await res.json();
-        return data;
-      })
-      .then((data) => {
-        setAllProducts(data);
-      });
+    try {
+      const res = await fetch("https://backendcdtt.onrender.com/allproducts");
+      const data = await res.json();
+      setAllProducts(data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
   };
+
   const handleRemove = async (id) => {
     await fetch(`https://backendcdtt.onrender.com/removeProduct`, {
       method: "DELETE",
@@ -31,6 +34,12 @@ const ListProduct = () => {
       }
     });
   };
+
+  const handleEdit = (product) => {
+    setEditingProduct(product);
+
+  };
+
   useEffect(() => {
     fetchInfo();
   }, []);
@@ -47,7 +56,7 @@ const ListProduct = () => {
         <p>New Price</p>
         <p>Category</p>
 
-        <p>Remove</p>
+        <p>Status</p>
       </div>
       <div className="listproduct-allProducts">
         <hr />
@@ -79,18 +88,29 @@ const ListProduct = () => {
 
               <p style={{ marginRight: "30px" }}>{product.category}</p>
 
-              <button
-                className="listproduct-remove-btn"
-                onClick={() => {
-                  handleRemove(product.id);
-                }}
-              >
-                Remove
-              </button>
+              <p style={{ marginRight: "5px", display: "block" }}>
+                <button
+                  className="listproduct-remove-btn"
+                  onClick={() => {
+                    handleRemove(product.id);
+                  }}
+                >
+                  Remove
+                </button>
+                <button
+                  className="listproduct-edit-btn"
+                  onClick={() => handleEdit(product)}
+                >
+                  Edit
+                </button>
+              </p>
             </div>
           );
         })}
       </div>
+      {editingProduct && (
+        <AddProduct fetchInfo={fetchInfo} preProduct={editingProduct} />
+      )}
     </div>
   );
 };

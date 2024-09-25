@@ -1,0 +1,38 @@
+/* Login.css */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Chiếm toàn bộ chiều cao của viewport */
+  background-color: #f0f0f0; /* Màu nền nhẹ */
+}
+
+form {
+  background-color: white; /* Màu nền trắng cho form */
+  padding: 20px;
+  border-radius: 10px; /* Bo tròn các góc */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+}
+
+input {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc; /* Viền nhẹ */
+  border-radius: 5px; /* Bo tròn viền input */
+  width: 100%; /* Để input chiếm hết chiều rộng */
+  box-sizing: border-box; /* Bao gồm padding và border trong kích thước */
+}
+
+button {
+  padding: 10px;
+  background-color: #4caf50; /* Màu xanh lá */
+  color: white; /* Màu chữ trắng */
+  border: none; /* Không có viền */
+  border-radius: 5px; /* Bo tròn viền button */
+  cursor: pointer; /* Hiển thị con trỏ như tay khi hover */
+}
+
+button:hover {
+  background-color: #45a049; /* Màu khi hover */
+}
