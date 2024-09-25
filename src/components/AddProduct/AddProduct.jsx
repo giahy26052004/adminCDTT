@@ -52,7 +52,7 @@ const AddProduct = ({ preProduct, fetchInfo }) => {
 
       // Determine whether to add or edit the product
       const apiUrl = preProduct
-        ? "http://localhost:3003/editproduct"
+        ? "https://backendcdtt.onrender.com/editproduct"
         : "https://backendcdtt.onrender.com/addproduct";
       const method = preProduct ? "PUT" : "POST";
       const token = localStorage.getItem("token");
